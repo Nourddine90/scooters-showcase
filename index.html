@@ -1,263 +1,24 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سكوترات المستقبل – أفضل السكوترات الكهربائية</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-        }
-        body {
-            background: linear-gradient(145deg, #f5f7fc 0%, #e9eef5 100%);
-            padding: 20px;
-        }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .header h1 {
-            font-size: 2.8rem;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb4d);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 10px;
-        }
-        .header p {
-            color: #2c3e50;
-            font-size: 1.2rem;
-        }
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
-        }
-        .product-card {
-            background: white;
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.1);
-            transition: transform 0.25s, box-shadow 0.25s;
-            cursor: pointer;
-        }
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 30px 45px rgba(0,0,0,0.15);
-        }
-        .product-img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            background: #ddd;
-        }
-        .product-info {
-            padding: 20px;
-        }
-        .product-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #1e2a3a;
-            margin-bottom: 8px;
-        }
-        .product-price {
-            font-size: 1.6rem;
-            font-weight: bold;
-            color: #e67e22;
-            margin: 8px 0;
-        }
-        .product-location {
-            color: #5d6d7e;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 8px;
-        }
-        .btn-details, .btn-wa {
-            margin-top: 15px;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 0.9rem;
-        }
-        .btn-details {
-            background: #1e2a3a;
-            color: white;
-            margin-left: 8px;
-        }
-        .btn-details:hover {
-            background: #e67e22;
-        }
-        .btn-wa {
-            background: #25D366;
-            color: white;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn-wa:hover {
-            background: #128C7E;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(8px);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background: white;
-            max-width: 600px;
-            width: 90%;
-            border-radius: 40px;
-            padding: 20px;
-            max-height: 85vh;
-            overflow-y: auto;
-            position: relative;
-        }
-        .modal-img {
-            width: 100%;
-            border-radius: 24px;
-            margin-bottom: 15px;
-        }
-        .modal-video {
-            width: 100%;
-            border-radius: 24px;
-            margin: 15px 0;
-        }
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 28px;
-            cursor: pointer;
-            background: #eee;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .contact-info {
-            background: #f0f4f8;
-            padding: 15px;
-            border-radius: 28px;
-            margin-top: 20px;
-        }
-        .contact-info a {
-            display: inline-block;
-            background: #25D366;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 40px;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            color: #5d6d7e;
-        }
-        @media (max-width: 700px) {
-            .products-grid { grid-template-columns: 1fr; }
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <div class="header">
-        <h1>🛴 سكوترات المستقبل</h1>
-        <p>أفضل السكوترات الكهربائية – تواصل مباشرة عبر واتساب مع البائع</p>
-    </div>
-    <div class="products-grid" id="productsGrid"></div>
-    <footer>
-        <p>للتواصل مع الدعم الفني: <a href="https://wa.me/212711366556" target="_blank" style="color:#25D366;">📱 واتساب الدعم</a></p>
-        <p>جميع الحقوق محفوظة © نور الدين 90</p>
-    </footer>
-</div>
-
-<div id="productModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <img id="modalImg" class="modal-img" src="" alt="">
-        <h2 id="modalTitle"></h2>
-        <p id="modalPrice" style="font-size: 1.8rem; color:#e67e22;"></p>
-        <p id="modalDesc"></p>
-        <div id="modalVideoContainer"></div>
-        <div class="contact-info">
-            <strong>📞 تواصل مع البائع:</strong><br>
-            <span id="modalSellerName"></span><br>
-            <span id="modalSellerLocation"></span><br>
-            <a id="whatsappLink" href="#" target="_blank">📱 اتصل عبر واتساب</a>
-        </div>
-    </div>
-</div>
-
 <script>
     let products = [];
 
-    // تحميل المنتجات من localStorage (أو من ملف JSON مستقبلاً)
-    function loadProducts() {
-        const stored = localStorage.getItem('scooters_products');
-        if(stored) {
-            products = JSON.parse(stored);
-        } else {
-            // بيانات افتراضية نموذجية (ستظهر عند أول مرة فقط)
-            products = [
-                {
-                    id: 1,
-                    name: "سكوتر زوم X7 برو",
-                    price: 1899,
-                    description: "سكوتر كهربائي فائق القوة، سرعة 35 كم/س، بطارية حتى 40 كم، تصميم رياضي.",
-                    image: "https://images.unsplash.com/photo-1562132162-6d1c610d1c49?w=500",
-                    video: "https://www.youtube.com/embed/3v9yNfXp8zE",
-                    sellerName: "نور الدين",
-                    sellerLocation: "الدار البيضاء، المغرب",
-                    sellerPhone: "212711366556"
-                },
-                {
-                    id: 2,
-                    name: "سكوتر كيه 3 برو",
-                    price: 2599,
-                    description: "محرك مزدوج، إطارات مقاومة للثقب، مصابيح LED، تطبيق ذكي.",
-                    image: "https://images.unsplash.com/photo-1605723517503-e0dd6fde7a7c?w=500",
-                    video: "",
-                    sellerName: "نور الدين",
-                    sellerLocation: "الرباط، المغرب",
-                    sellerPhone: "212711366556"
-                }
-            ];
-            saveProducts();
+    // تحميل المنتجات من ملف JSON الخارجي
+    async function loadProducts() {
+        try {
+            const response = await fetch('products.json');
+            if (!response.ok) throw new Error('خطأ في تحميل المنتجات');
+            products = await response.json();
+            renderProducts();
+        } catch (error) {
+            console.error(error);
+            document.getElementById('productsGrid').innerHTML = '<div style="text-align:center;">عذراً، حدث خطأ في تحميل المنتجات. حاول مرة أخرى لاحقاً.</div>';
         }
-        renderProducts();
-    }
-
-    function saveProducts() {
-        localStorage.setItem('scooters_products', JSON.stringify(products));
     }
 
     function renderProducts() {
         const grid = document.getElementById('productsGrid');
-        if(!grid) return;
-        if(products.length === 0) {
-            grid.innerHTML = '<div style="text-align:center;">لا توجد سكوترات متاحة حاليًا. تواصل معنا لإضافة منتجك.</div>';
+        if (!grid) return;
+        if (products.length === 0) {
+            grid.innerHTML = '<div style="text-align:center;">لا توجد سكوترات متاحة حالياً. تواصل معنا لإضافة منتجك.</div>';
             return;
         }
         grid.innerHTML = '';
@@ -281,6 +42,8 @@
         });
     }
 
+    // بقية الدوال (showModal, closeModal) كما هي...
+
     function showModal(prod) {
         const modal = document.getElementById('productModal');
         document.getElementById('modalImg').src = prod.image;
@@ -295,11 +58,11 @@
         document.getElementById('whatsappLink').innerHTML = `📱 اتصل عبر واتساب (${prod.sellerName})`;
 
         const videoContainer = document.getElementById('modalVideoContainer');
-        if(prod.video && prod.video.trim() !== "") {
+        if (prod.video && prod.video.trim() !== "") {
             let videoHtml = '';
-            if(prod.video.includes('youtube.com') || prod.video.includes('youtu.be')) {
+            if (prod.video.includes('youtube.com') || prod.video.includes('youtu.be')) {
                 let embedUrl = prod.video.replace('watch?v=', 'embed/');
-                if(prod.video.includes('youtu.be')) {
+                if (prod.video.includes('youtu.be')) {
                     let videoId = prod.video.split('/').pop();
                     embedUrl = `https://www.youtube.com/embed/${videoId}`;
                 }
@@ -318,12 +81,10 @@
         document.getElementById('productModal').style.display = 'none';
     });
     window.onclick = (e) => {
-        if(e.target === document.getElementById('productModal')) {
+        if (e.target === document.getElementById('productModal')) {
             document.getElementById('productModal').style.display = 'none';
         }
     };
 
     loadProducts();
 </script>
-</body>
-</html>

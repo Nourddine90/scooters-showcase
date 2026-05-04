@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "name": "سكوتر زوم X7 برو",
+    "price": 1899,
+    "description": "سكوتر كهربائي فائق القوة، سرعة 35 كم/س، بطارية حتى 40 كم، تصميم رياضي.",
+    "image": "https://images.unsplash.com/photo-1562132162-6d1c610d1c49?w=500",
+    "video": "https://www.youtube.com/embed/3v9yNfXp8zE",
+    "sellerName": "نور الدين",
+    "sellerLocation": "الدار البيضاء، المغرب",
+    "sellerPhone": "212711366556"
+  },
+  {
+    "id": 2,
+    "name": "سكوتر كيه 3 برو",
+    "price": 2599,
+    "description": "محرك مزدوج، إطارات مقاومة للثقب، مصابيح LED، تطبيق ذكي.",
+    "image": "https://images.unsplash.com/photo-1605723517503-e0dd6fde7a7c?w=500",
+    "video": "",
+    "sellerName": "نور الدين",
+    "sellerLocation": "الرباط، المغرب",
+    "sellerPhone": "212711366556"
+  }
+]

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة إدارة السكوترات</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
+        body { background: #1a2a3a; padding: 30px; color: white; }
+        .container { max-width: 900px; margin: auto; background: #0f1722; padding: 30px; border-radius: 40px; }
+        input, textarea, button { width: 100%; margin: 10px 0; padding: 12px; border-radius: 50px; border: none; }
+        button { background: #e67e22; color: white; font-weight: bold; cursor: pointer; }
+        .product-item { background: #1e2a3a; margin: 15px 0; padding: 15px; border-radius: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .delete-btn { background: #c0392b; width: auto; padding: 6px 15px; }
+        h2, h3 { margin: 20px 0 10px; }
+        .warning { background: #e67e22; padding: 10px; border-radius: 28px; text-align: center; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🔐 لوحة الإدارة - سكوترات المستقبل</h1>
+    <div class="warning">⚠️ هذه الصفحة سرية. لا تشارك الرابط مع أي شخص.</div>
+
+    <div id="loginSection">
+        <h2>الرجاء إدخال كلمة المرور</h2>
+        <input type="password" id="adminPass" placeholder="كلمة المرور">
+        <button id="loginBtn">دخول</button>
+    </div>
+
+    <div id="adminPanel" style="display:none;">
+        <h2>➕ إضافة سكوتر جديد</h2>
+        <form id="productForm">
+            <input type="text" id="prodName" placeholder="اسم السكوتر (مثال: سكوتر X7)" required>
+            <input type="number" id="prodPrice" placeholder="السعر (درهم)" required>
+            <textarea id="prodDesc" rows="3" placeholder="وصف المنتج..."></textarea>
+            <input type="text" id="prodImage" placeholder="رابط الصورة (يفضل من Unsplash أو أي رابط مباشر)">
+            <input type="text" id="prodVideo" placeholder="رابط فيديو (YouTube أو رابط مباشر)">
+            <input type="text" id="sellerName" placeholder="اسم البائع" required>
+            <input type="text" id="sellerLocation" placeholder="المكان (المدينة)" required>
+            <input type="tel" id="sellerPhone" placeholder="رقم الهاتف (مثال: 212711366556)" required>
+            <button type="submit">✨ إضافة المنتج</button>
+        </form>
+
+        <h3>📋 قائمة السكوترات الحالية</h3>
+        <div id="productsList"></div>
+        <p style="font-size:12px; margin-top:20px;">ملاحظة: جميع المنتجات تُحفظ في متصفحك فقط (localStorage). إذا أردت مشاركتها مع جميع الزوار، يمكنك لاحقاً نقل البيانات إلى ملف JSON.</p>
+    </div>
+</div>
+
+<script>
+    const ADMIN_PASSWORD = "admin123"; // غيّر كلمة المرور هنا
+    let products = [];
+
+    function loadProducts() {
+        const stored = localStorage.getItem('scooters_products');
+        if(stored) products = JSON.parse(stored);
+        else products = [];
+        renderProductsList();
+    }
+    function saveProducts() {
+        localStorage.setItem('scooters_products', JSON.stringify(products));
+        renderProductsList();
+        // تحديث الصفحة العامة غير مطلوب هنا
+    }
+    function renderProductsList() {
+        const container = document.getElementById('productsList');
+        if(!container) return;
+        if(products.length === 0) {
+            container.innerHTML = '<p>لا توجد منتجات بعد. أضف منتجك الأول.</p>';
+            return;
+        }
+        container.innerHTML = '';
+        products.forEach((p, idx) => {
+            const div = document.createElement('div');
+            div.className = 'product-item';
+            div.innerHTML = `
+                <div><strong>${p.name}</strong> - ${p.price} درهم<br>
+                📍 ${p.sellerLocation}<br>
+                📞 ${p.sellerPhone}</div>
+                <button class="delete-btn" data-id="${p.id}">🗑️ حذف</button>
+            `;
+            container.appendChild(div);
+        });
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.getAttribute('data-id'));
+                deleteProductById(id);
+            });
+        });
+    }
+    function deleteProductById(id) {
+        products = products.filter(p => p.id !== id);
+        saveProducts();
+    }
+    function addProduct(newProd) {
+        newProd.id = Date.now();
+        products.push(newProd);
+        saveProducts();
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', () => {
+        const pass = document.getElementById('adminPass').value;
+        if(pass === ADMIN_PASSWORD) {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            loadProducts();
+        } else {
+            alert('كلمة المرور غير صحيحة');
+        }
+    });
+
+    document.getElementById('productForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const newProd = {
+            name: document.getElementById('prodName').value,
+            price: parseInt(document.getElementById('prodPrice').value),
+            description: document.getElementById('prodDesc').value,
+            image: document.getElementById('prodImage').value || 'https://placehold.co/600x400?text=سكوتر',
+            video: document.getElementById('prodVideo').value,
+            sellerName: document.getElementById('sellerName').value,
+            sellerLocation: document.getElementById('sellerLocation').value,
+            sellerPhone: document.getElementById('sellerPhone').value
+        };
+        if(!newProd.name || !newProd.price || !newProd.sellerName || !newProd.sellerLocation || !newProd.sellerPhone) {
+            alert('يرجى ملء جميع الحقول الأساسية');
+            return;
+        }
+        addProduct(newProd);
+        document.getElementById('productForm').reset();
+        alert('تمت إضافة السكوتر بنجاح');
+    });
+</script>
+</body>
+</html>
